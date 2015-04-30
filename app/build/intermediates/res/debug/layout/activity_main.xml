@@ -51,7 +51,7 @@
                 android:id="@+id/humLab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pressure\n"
+                android:text="Humidity\n"
                 android:textColor="#000000"
                 android:shadowColor="#FFFFFF"
                 style="?android:attr/textAppearanceLarge"
@@ -69,12 +69,31 @@
                 android:id="@+id/pressLab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Humidity"
+                android:text="Pressure"
                 android:textColor="#000000"
                 android:shadowColor="#FFFFFF"
                 style="?android:attr/textAppearanceLarge"
                 android:layout_above="@+id/windLab"
-                android:layout_marginBottom="61dp"
+                android:layout_marginBottom="30dp"
+                android:layout_alignRight="@+id/cityText"
+                android:layout_alignEnd="@+id/cityText"
+                android:layout_column="3" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/alerts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alerts"
+                android:textColor="#000000"
+                android:shadowColor="#FFFFFF"
+                style="?android:attr/textAppearanceLarge"
+                android:layout_above="@+id/windLab"
+                android:layout_marginBottom="30dp"
                 android:layout_alignRight="@+id/cityText"
                 android:layout_alignEnd="@+id/cityText"
                 android:layout_column="3" />
@@ -87,7 +106,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
 
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/cityText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -124,6 +143,20 @@
             style="?android:attr/textAppearanceLarge"
             android:textStyle="bold"
             android:layout_below="@+id/tableLayout2"
+            android:layout_marginBottom="30dp"
+            android:layout_alignLeft="@+id/tableLayout2"
+            android:layout_alignStart="@+id/tableLayout2" />
+
+        <TextView
+            android:id="@+id/alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:shadowColor="#FFFFFF"
+            android:text="Alerts"
+            style="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:layout_below="@+id/tableLayout2"
             android:layout_alignLeft="@+id/tableLayout2"
             android:layout_alignStart="@+id/tableLayout2" />
     </TableLayout>
@@ -139,22 +172,22 @@
         android:textStyle="bold"
         android:layout_above="@+id/tableLayout2"
         android:layout_alignLeft="@+id/tableLayout2"
-        android:layout_alignStart="@+id/tableLayout2" />
+        android:layout_alignStart="@+id/tableLayout2"/>
 
-    <TextView
+    <EditText
         android:id="@+id/cityText"
+        android:inputType="textAutoComplete"
         style="?android:attr/textAppearanceLarge"
         android:textStyle="bold"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:shadowColor="#FFFFFF"
         android:text="CityName"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/windSpeed"
-        android:layout_alignEnd="@+id/windSpeed"
-        android:layout_alignLeft="@+id/temp"
-        android:layout_alignStart="@+id/temp" />
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:imeOptions="actionDone"/>
 
     <TextView
         android:id="@+id/windDeg"
@@ -195,4 +228,4 @@
         android:layout_alignLeft="@+id/windSpeed"
         android:layout_alignStart="@+id/windSpeed" />
 
-</RelativeLayout><!-- From: file:/C:/Users/User/Desktop/WeatherApp1/app/src/main/res/layout/activity_main.xml -->
+</RelativeLayout><!-- From: file:/C:/Users/Kendra/Desktop/WeatherCatIDK/WeatherCatIDK/app/src/main/res/layout/activity_main.xml -->

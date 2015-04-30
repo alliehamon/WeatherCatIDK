@@ -2,4 +2,4 @@
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/pager"
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context="com.survivingwithandroid.weatherapp.MainActivity2Activity" />
-<!-- From: file:/C:/Users/User/Desktop/WeatherApp1/app/src/main/res/layout/activity_main_activity2.xml -->
+<!-- From: file:/C:/Users/Kendra/Desktop/WeatherCatIDK/WeatherCatIDK/app/src/main/res/layout/activity_main_activity2.xml -->

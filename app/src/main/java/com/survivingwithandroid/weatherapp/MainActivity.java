@@ -2,6 +2,7 @@ package com.survivingwithandroid.weatherapp;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,7 +10,11 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,7 +37,7 @@ import org.json.JSONException;
 
 public class MainActivity extends Activity {
 
-	private TextView cityText;
+	private EditText cityText;
 	private TextView condDescr;
 	private TextView temp;
 	private TextView press;
@@ -40,6 +45,7 @@ public class MainActivity extends Activity {
 	private TextView windDeg;
 	private TextView hum;
 	private ImageView imgView;
+    private TextView alert;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +53,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		String city = "Norman,US"; //have to change this for testing
 		
-		cityText = (TextView) findViewById(R.id.cityText);
+
 		condDescr = (TextView) findViewById(R.id.condDescr);
 		temp = (TextView) findViewById(R.id.temp);
 		hum = (TextView) findViewById(R.id.hum);
@@ -62,6 +68,32 @@ public class MainActivity extends Activity {
 		
 		JSONWeatherTask task = new JSONWeatherTask();
 		task.execute(new String[]{city});
+
+        alert = (TextView) findViewById(R.id.alert);
+        AlertAsync alertTask = new AlertAsync();
+        alertTask.execute(new String[]{city});
+
+        cityText = (EditText) findViewById(R.id.cityText);
+        cityText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    String newCity = v.getText().toString();
+                    cityText.setText(v.getText());
+
+                    //Run updates
+                    JSONWeatherTask task2 = new JSONWeatherTask();
+                    task2.execute(new String[]{newCity});
+
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+
+                    handled = true;
+                }
+                return handled;
+            }
+        });
 	}
 
 	@Override
@@ -89,9 +121,7 @@ public class MainActivity extends Activity {
                 e.printStackTrace();
             }
             return weather;
-
         }
-
 
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         @Override
@@ -108,8 +138,8 @@ public class MainActivity extends Activity {
             cityText.setText(weather.location.getCity() + ", " + weather.location.getCountry());
             condDescr.setText(weather.currentCondition.getCondition());
             temp.setText("\n" + (Math.round(((weather.temperature.getTemp() - 273.15) * (9)) / 5) + 32) + " degrees F" + "\n");
-            hum.setText("\n" + weather.currentCondition.getHumidity() + "%");
-            press.setText("\n" + weather.currentCondition.getPressure() + " hPa");
+            hum.setText("\n\t\t\t" + weather.currentCondition.getHumidity() + "%");
+            press.setText("\n\t\t\t" + weather.currentCondition.getPressure() + " hPa");
             windSpeed.setText("\n" + weather.wind.getSpeed() + " mps");
             windDeg.setText(" " + weather.currentCondition.getDescr() + "\n");
 
@@ -149,6 +179,24 @@ public class MainActivity extends Activity {
                 rLayout.setBackground(snow);
             }
 
+        }
+    }
+    protected class AlertAsync extends AsyncTask<String, String, String>
+    {
+        @Override
+        protected String doInBackground(String...params) {
+            String loc = "Des Moines, IL";
+            WunderGroundAlerts alerty = new WunderGroundAlerts();
+            String alertMes = alerty.getAlerts(loc)[0];
+            return alertMes;
+        }
+        @Override
+        protected void onPostExecute(String alertMes) {
+            super.onPostExecute(alertMes);
+
+            if(alertMes != null){
+                alert.setText(alertMes);
+            }
         }
     }
 }
