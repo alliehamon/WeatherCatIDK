@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		String city = "Norman,US"; //have to change this for testing
+		String city = "Norman, US"; //have to change this for testing
 		
 
 		condDescr = (TextView) findViewById(R.id.condDescr);
@@ -85,6 +85,9 @@ public class MainActivity extends Activity {
                     //Run updates
                     JSONWeatherTask task2 = new JSONWeatherTask();
                     task2.execute(new String[]{newCity});
+
+                    AlertAsync alertTask = new AlertAsync();
+                    alertTask.execute(new String[]{newCity});
 
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
@@ -185,7 +188,7 @@ public class MainActivity extends Activity {
     {
         @Override
         protected String doInBackground(String...params) {
-            String loc = "Des Moines, IL";
+            String loc = params[0];
             WunderGroundAlerts alerty = new WunderGroundAlerts();
             String alertMes = alerty.getAlerts(loc)[0];
             return alertMes;

@@ -1,13 +1,13 @@
 package com.survivingwithandroid.weatherapp;
 
-        import org.json.JSONArray;
-        import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-        import java.io.BufferedReader;
-        import java.io.InputStream;
-        import java.io.InputStreamReader;
-        import java.net.HttpURLConnection;
-        import java.net.URL;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 /**
@@ -19,8 +19,22 @@ public class WunderGroundAlerts {
 
     public String[] getAlerts(String location) {
         String[] alertData = new String[3];
-
         String url = "http://api.wunderground.com/api/f40be2e38cc014b7/alerts/q/OK/Norman.json";
+
+        if(location.contains(", "))
+        {
+            String city = location.substring(0,location.indexOf(","));
+            String state = location.substring(location.indexOf(",")+2, (location.length()));
+
+            url = "http://api.wunderground.com/api/f40be2e38cc014b7/alerts/q/" + state + "/" + city + ".json";
+        }
+        else
+        {
+            alertData[0] = "Severe alerts can not be found for this location.";
+            //return alertData;
+        }
+
+
         HttpURLConnection con = null ;
         InputStream is = null;
 
